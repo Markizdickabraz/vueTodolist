@@ -23,6 +23,8 @@
       </div>
     </div>
     <button type="reset" class="reset" v-on:click="reset">Reset</button>
+    <button type="button" class="toggle-computer" v-on:click="toggleComputer">Play Against Computer</button>
+
   </div>
 </template>
 
@@ -38,9 +40,19 @@ export default {
       data: ['', '', '', '', '', '', '', '', ''],
       XWin: 0,
       OWin: 0,
+      isComputer: false,
     };
   },
   methods: {
+    toggleComputer() {
+      this.isComputer = !this.isComputer;
+      this.reset();
+    },
+    computerMove() {
+      const emptyIndexes = this.data.map((value, index) => value === '' ? index : null).filter(index => index !== null);
+      const randomIndex = emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
+      this.toggle(randomIndex);
+    },
     toggle(num) {
       const element = this.$refs[`box${num + 1}`];
       if (element.childElementCount === 1) {
@@ -61,6 +73,10 @@ export default {
 
       this.count++;
       this.checkWin();
+
+      if (this.isComputer && this.count % 2 === 1) {
+        setTimeout(() => this.computerMove(), 500);
+      }
     },
     checkWin() {
       const winConditions = [
@@ -117,6 +133,28 @@ export default {
   background-color: darkcyan;
   position: relative;
 }
+.toggle-computer {
+  width: 250px;
+  height: 50px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 25px;
+  background: #1f3540;
+  font-size: 20px;
+  color: #26ffcb;
+  margin-top: 20px;
+  margin-bottom: 80px;
+}
+
+@media screen and (max-width: 768px) {
+  .toggle-computer {
+    width: 150px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
+
 .scoreboard {
   position: absolute;
   width: 100%;
@@ -151,7 +189,7 @@ export default {
   font-size: 26px;
   color: #26ffcb;
   margin-top: 25px;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 
   @media screen and (max-width: 768px) {
     width: 100px;
