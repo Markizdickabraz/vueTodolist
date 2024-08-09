@@ -2,6 +2,7 @@ import axios from 'axios';
 import router from '@/router';
 import { toast } from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
+import Cookies from 'js-cookie';
 
 export const AuthModule = {
     state: () => ({
@@ -50,7 +51,8 @@ export const AuthModule = {
                 const authToken = response.data.token;
                 commit('setIsLogin', true);
                 commit('setAuthToken', authToken);
-                localStorage.setItem('authToken', authToken);
+                Cookies.set('authToken', authToken, { expires: 7 });
+                document.cookie = `authToken=${authToken}; path=/`;
                 router.push(state.changePage);
                 toast.success('Login successful!');
             } catch (error) {
@@ -71,7 +73,8 @@ export const AuthModule = {
                 );
                 commit('setIsLogin', false);
                 commit('setAuthToken', '');
-                localStorage.removeItem('authToken');
+                Cookies.remove('authToken');
+                document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
                 router.push(state.changePage);
                 toast.success('Logout successful!');
             } catch (error) {
@@ -82,7 +85,7 @@ export const AuthModule = {
     },
     getters: {
         isAuthenticated(state) {
-            return !!state.authToken;
+            return !!Cookies.get('authToken');
         }
     },
     namespaced: true

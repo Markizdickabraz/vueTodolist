@@ -4,7 +4,7 @@
    <Form class="form">
      <input
          class="input"
-         v-model="login.email"
+         v-model.trim="login.email"
          @input="updateAuthInputValue"
          type="email"
          placeholder="Email"
@@ -12,7 +12,7 @@
      <label class="label">
        <input
            class="input"
-           v-model="login.password"
+           v-model.trim="login.password"
            :type="passwordType"
            placeholder="Password"
        />

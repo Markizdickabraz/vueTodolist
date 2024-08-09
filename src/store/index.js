@@ -1,8 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import { AuthModule } from './AuthModule'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import { AuthModule } from './AuthModule';
+import Cookies from 'js-cookie';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
@@ -10,11 +11,11 @@ export default new Vuex.Store({
     },
     plugins: [
         (store) => {
-            const savedToken = localStorage.getItem('authToken');
+            const savedToken = Cookies.get('authToken');
             if (savedToken) {
                 store.commit('auth/setAuthToken', savedToken);
                 store.commit('auth/setIsLogin', true);
             }
         }
     ]
-})
+});

@@ -3,7 +3,7 @@
     <form class="form" @submit.prevent="registerUser">
       <input
           class="input"
-          v-model="register.email"
+          v-model.trim="register.email"
           type="email"
           placeholder="Email"
           autofocus
@@ -11,7 +11,7 @@
       <label class="label">
         <input
             class="input"
-            v-model="register.password"
+            v-model.trim="register.password"
             :type="passwordType"
             placeholder="Password"
         />

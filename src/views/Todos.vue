@@ -1,7 +1,7 @@
 <template>
  <div class="main">
    <h2>Todo application</h2>
-   <router-link to="/">Home Page</router-link>
+   <router-link to="/applications">Applications</router-link>
    <hr>
    <AddTodo
        v-bind:todos="todos"

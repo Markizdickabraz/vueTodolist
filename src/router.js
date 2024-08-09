@@ -28,6 +28,11 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
+        path: '/game',
+        component: () => import(/* webpackChunkName: "registration" */ '@/views/Game.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
         path: '/applications',
         component: () => import(/* webpackChunkName: "registration" */ '@/views/Applications.vue'),
         meta: { requiresAuth: true }
@@ -47,7 +52,7 @@ router.beforeEach((to, from, next) => {
     const isAuthenticated = store.getters['auth/isAuthenticated'];
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!isAuthenticated) {
-            next({ path: '/login' }); // Перенаправлення на сторінку входу
+            next({ path: '/login' });
         } else {
             next();
         }
